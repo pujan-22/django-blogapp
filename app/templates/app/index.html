@@ -36,15 +36,14 @@
       <div class="container">
         <div class="grid-2">
           <div class="post-img">
-            <img src="images/post.png" alt="" />
+            <img src="{{posts.all.0.image.url}}" alt="" />
           </div>
           <div class="post-content">
             <div class="cetagory">
               <p>Category name</p>
             </div>
             <h1>
-              Lorem ipsum began as scrambled, nonsensical Latin derived from
-              Cicero's 1st-century BC text.
+              {{posts.all.0.title}}
             </h1>
             <p class="des">
               Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iure
@@ -77,10 +76,10 @@
                   </h3>
                   <div class="author">
                     <div class="profile-pic">
-                      <img src="images/author.svg" alt="" />
+                      <img src="{{post.author.profile.profile_image.url}}" alt="" />
                     </div>
                     <div class="details">
-                      <p>Author name</p>
+                      <p>{{post.author.first_name}}</p>
                       <small>{{post.last_updated|date}}</small>
                     </div>
                   </div>
@@ -88,6 +87,8 @@
               </div>
             </a>
             <!-- card end-->
+            {% empty %}
+            <p>Nothing to show here</p>
             {% endfor %}
           
         </div>
@@ -116,10 +117,10 @@
                   </h3>
                   <div class="author">
                     <div class="profile-pic">
-                      <img src="images/author.svg" alt="" />
+                      <img src="{{post.author.profile.profile_image.url}}" alt="" />
                     </div>
                     <div class="details">
-                      <p>Author name</p>
+                      <p>{{post.author.first_name}}</p>
                       <small>{{post.last_updated|date}}</small>
                     </div>
                   </div>
@@ -127,6 +128,8 @@
               </div>
             </a>
             <!-- card end-->
+            {% empty %}
+             <p>Nothing to show here</p>
             {% endfor %}
           
         </div>
