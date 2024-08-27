@@ -3,6 +3,10 @@ from django.utils.text import slugify
 from django.contrib.auth.models import User
 
 # Create your models here.
+class Subscribe(models.Model):
+    email = models.EmailField(max_length=200)
+    date = models.DateField(auto_now=True)
+    
 class Tag(models.Model):
     name = models.CharField(max_length=100)
     description = models.CharField(max_length=100)
