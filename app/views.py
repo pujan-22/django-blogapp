@@ -12,9 +12,13 @@ def index(request):
     posts = Post.objects.all()
     new_posts = posts.order_by('-last_updated')[0:3]
     top_posts = posts.order_by('-view_count')[0:3]
+    featured_blog = Post.objects.filter(is_featured = True)
     subscribe_form = SubscribeForm()
     subscribe_success = None
     website_info = None
+
+    if featured_blog:
+        featured_blog = featured_blog[0]
 
     if WebsiteMeta.objects.all().exists():
         website_info = WebsiteMeta.objects.all()[0]
@@ -26,7 +30,7 @@ def index(request):
             subscribe_success = 'Subscribed Successfully'
             subscribe_form = SubscribeForm()
 
-    context = {'posts':posts, 'top_posts':top_posts, 'website_info':website_info, 'new_posts':new_posts, 'subscribe_form':subscribe_form, 'subscribe_success':subscribe_success}
+    context = {'posts':posts, 'top_posts':top_posts, 'website_info':website_info, 'new_posts':new_posts, 'subscribe_form':subscribe_form, 'subscribe_success':subscribe_success, 'featured_blog':featured_blog }
     return render(request, 'app/index.html', context)
 
 
