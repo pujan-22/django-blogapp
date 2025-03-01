@@ -36,13 +36,20 @@
           <a href="">All post</a>
         </div>
         <div class="action-btn">
-          <a href="pages/login.html"
+          {% if user.is_authenticated %}
+          <form action="{% url 'logout' %}" method="post">
+            {% csrf_token %}
+            <button class="btn btn-scoundary" type="submit">Logout</button>
+          </form> 
+          {% else %}
+          <a href="{% url "login" %}"
             ><button class="btn btn-scoundary">Login</button></a
           >
-          <a href="pages/signup.html">
+          <a href="{% url "register" %}">
             <button class="btn btn-primary">Sign Up</button></a
           >
           <i class="uil uil-align-center-alt menu" onclick="menu()"></i>
+          {% endif %}
         </div>
       </div>
     </header>
@@ -86,6 +93,10 @@
                 />
                 <button class="btn btn-primary">Subscribe</button>
               </form>
+              {% comment %} <form action="{% url 'logout' %}" method="post">
+                {% csrf_token %}
+                <button type="submit">Logout</button>
+              </form> {% endcomment %}
             </div>
           </div>
         </div>

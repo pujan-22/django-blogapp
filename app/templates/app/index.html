@@ -28,11 +28,13 @@
             {% endif %}
           </div>
           <div class="newsletter">
+            {% if request.session.subscribed == None %}
             <form method="POST">
               {% csrf_token %}
               {{subscribe_form}}
               <button class="btn btn-primary">Subscribe</button>
             </form>
+            {% endif %}
             {% if subscribe_success %}
               <br>
               <p>Subscribed Successfully</p>
