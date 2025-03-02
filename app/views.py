@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 
 from app.forms import CommentForm, SubscribeForm, NewUserForm
 from app.models import Post, Comments, Profile, Tag, WebsiteMeta
@@ -40,6 +40,20 @@ def post_page(request, slug):
     post = Post.objects.get(slug=slug)
     comments = Comments.objects.filter(post=post, parent=None)
     form = CommentForm()
+
+    #bookmark logic
+    bookmarked = False
+    if post.bookmarks.filter(id = request.user.id).exists():
+        bookmarked = True
+    is_boomarked = bookmarked
+
+    #like logic
+    liked = False
+    if post.likes.filter(id=request.user.id).exists():
+        liked = True
+    is_liked = liked
+
+    like_count = post.like_count()
     if request.POST:
         comment_form = CommentForm(request.POST)
         if comment_form.is_valid:
@@ -69,7 +83,8 @@ def post_page(request, slug):
         post.view_count += 1
     post.save()
 
-    context = {'post':post, 'form':form, 'comments':comments }
+    context = {'post':post, 'form':form, 'comments':comments, 'is_bookmarked':is_boomarked, 
+               'is_liked':is_liked, "like_count":like_count }
     return render(request, 'app/post.html', context)
 
 
@@ -124,3 +139,20 @@ def register_user(request):
         
     context = {'form' : form}
     return render(request, 'registration/register.html', context)
+
+
+def bookmark_post(request, slug):
+    post = get_object_or_404(Post, id = request.POST.get('post_id'))
+    if post.bookmarks.filter(id=request.user.id).exists():
+        post.bookmarks.remove(request.user)
+    else:
+        post.bookmarks.add(request.user)
+    return HttpResponseRedirect(reverse('post_page', args=[str(slug)]))
+
+def like_post(request, slug):
+    post = get_object_or_404(Post, id = request.POST.get('post_id'))
+    if post.likes.filter(id=request.user.id).exists():
+        post.likes.remove(request.user)
+    else:
+        post.likes.add(request.user)
+    return HttpResponseRedirect(reverse('post_page', args=[str(slug)]))
