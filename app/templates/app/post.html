@@ -34,7 +34,7 @@
                   <p class="view-count">{{post.view_count}} view{{post.view_count|pluralize}}</p>
                 </div>
                 <div class="track">
-                  {% if is_authenticated %}
+                  {% if user.is_authenticated %}
                     <form action="{% url "bookmark_post" post.slug %}" method="POST">
                       {% csrf_token %}
                       <input type="hidden" name="post_id" value="{{post.id}}"/>

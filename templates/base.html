@@ -33,7 +33,11 @@
         <div class="links">
           <a href="{% url "index" %}">Home</a>
           <a href="{% url "about" %}">About</a>
-          <a href="">All post</a>
+          {% if user.is_authenticated %}
+            <a href="{% url "all_post" %}">All post</a>
+            <a href="{% url "all_bookmarked_post" %}">Bookmarks</a>
+            <a href="{% url "liked_post" %}">Liked Post</a>
+          {% endif %}
         </div>
         <div class="action-btn">
           {% if user.is_authenticated %}
@@ -68,16 +72,23 @@
             <div class="q-link">
               <a href="{% url "index" %}">Home</a>
               <a href="{% url "about" %}">About</a>
-              <a href="">All Post</a>
+              <a href="{% url "all_post" %}">All Post</a>
             </div>
           </div>
           <div class="link">
-            <h2>Top cetagory</h2>
+            {% if user.is_authenticated %}
+            <h2>Your Favourites</h2>
             <div class="q-link">
-              <a href="{% url "index" %}">Home</a>
-              <a href="{% url "about" %}">About</a>
-              <a href="">All Post</a>
+              <a href="{% url "all_bookmarked_post" %}">Bookmarks</a>
+              <a href="{% url "liked_post" %}">Likes</a>
             </div>
+            {% else %}
+            <h2>Register with us</h2>
+            <div class="q-link">
+              <a href="{% url "login" %}">Login</a>
+              <a href="{% url "register" %}">Register</a>
+            </div>
+            {% endif %}
           </div>
           <div class="news-signup">
             <h2>Subscribe</h2>
